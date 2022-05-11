@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
+import { TouchableOpacity } from 'react-native-web';
 
 export class BusSearch extends Component {
 
@@ -20,12 +21,22 @@ export class BusSearch extends Component {
             .then(json => {
                 let i = 0;
                 for (let prop in json) {
-                    this.allBusObjects.push(<Text key={i + prop} name={prop}>{prop} - {json[prop].longName[0]}</Text>);
+                    this.allBusObjects.push(
+                        <TouchableOpacity onPress={this.handleBusTapped} key={i + prop} name={prop}>
+                            <View>
+                            <Text >{prop} - {json[prop].longName[0]}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    );
                     i++;
                 }
                 this.displayedBusObjects = this.allBusObjects;
                 this.setState({ loading: false });
             });
+    }
+
+    handleBusTapped = () => {
+        console.log("bus has been tapped");
     }
 
     updateDisplayedBusObjects = (value) => {
